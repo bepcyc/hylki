@@ -309,17 +309,6 @@ impl SimpleComponent for AppModel {
                         // gallery's columns would hold the window wide
                         // while the mail is showing (#624).
                         set_hhomogeneous: false,
-                        // Swap the mail panes for the attachments gallery or
-                        // the contacts view, at once: no transition.
-                        #[watch]
-                        set_visible_child_name: if model.showing_gallery {
-                            "gallery"
-                        } else if model.showing_contacts {
-                            "contacts"
-                        } else {
-                            "mail"
-                        },
-
                     #[name = "mail_split"]
                     add_named[Some("mail")] = &gtk::Paned {
                         set_orientation: gtk::Orientation::Horizontal,
@@ -848,6 +837,17 @@ impl SimpleComponent for AppModel {
                             },
                         },
                     },
+
+                        // Swap the mail panes for the attachments gallery or
+                        // the contacts view, at once: no transition.
+                        #[watch]
+                        set_visible_child_name: if model.showing_gallery {
+                            "gallery"
+                        } else if model.showing_contacts {
+                            "contacts"
+                        } else {
+                            "mail"
+                        },
                     },
                     },
                     },
