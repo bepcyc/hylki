@@ -387,9 +387,6 @@ impl Component for MessageView {
                     // pane's still or as the reveal after it, never dissolved
                     // over the message before.
                     set_vexpand: true,
-                    #[watch]
-                    set_visible_child_name: model.body_page(),
-
                     #[name = "loading_page"]
                     add_named[Some("loading")] = &gtk::Box {
                         add_css_class: "reader-loading",
@@ -411,6 +408,9 @@ impl Component for MessageView {
                             set_label: &i18n("Loading…"),
                         },
                     },
+
+                    #[watch]
+                    set_visible_child_name: model.body_page(),
                 },
             },
 

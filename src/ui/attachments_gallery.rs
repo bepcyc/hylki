@@ -164,9 +164,6 @@ impl Component for AttachmentsGallery {
 
                 gtk::Stack {
                     set_vexpand: true,
-                    #[watch]
-                    set_visible_child_name: model.page(),
-
                     add_named[Some("loading")] = &gtk::Box {
                         set_halign: gtk::Align::Center,
                         set_valign: gtk::Align::Center,
@@ -322,6 +319,9 @@ impl Component for AttachmentsGallery {
                             },
                         },
                     },
+
+                    #[watch]
+                    set_visible_child_name: model.page(),
                 },
 
                 // Footer: view toggle, filtering/ordering, size, count — the
@@ -565,18 +565,6 @@ impl Component for AttachmentsGallery {
                     gtk::Stack {
                         set_hexpand: true,
                         set_vexpand: true,
-                        #[watch]
-                        set_visible_child_name: if model.preview_texture.is_some() {
-                            "image"
-                        } else if !model.preview_failed
-                            && model.current().is_some_and(|i| is_pdf_name(&i.name) && i.data.is_some())
-                        {
-                            // A PDF whose full-size render is still on its way.
-                            "rendering"
-                        } else {
-                            "file"
-                        },
-
                         #[name = "preview_picture"]
                         add_named[Some("image")] = &gtk::Picture {
                             set_can_shrink: true,
@@ -623,6 +611,18 @@ impl Component for AttachmentsGallery {
                                 #[watch]
                                 set_visible: model.preview_failed,
                             },
+                        },
+
+                        #[watch]
+                        set_visible_child_name: if model.preview_texture.is_some() {
+                            "image"
+                        } else if !model.preview_failed
+                            && model.current().is_some_and(|i| is_pdf_name(&i.name) && i.data.is_some())
+                        {
+                            // A PDF whose full-size render is still on its way.
+                            "rendering"
+                        } else {
+                            "file"
                         },
                     },
 

@@ -125,15 +125,6 @@ impl Component for Lightbox {
                 gtk::Stack {
                     set_hexpand: true,
                     set_vexpand: true,
-                    #[watch]
-                    set_visible_child_name: if model.texture.is_some() {
-                        "image"
-                    } else if model.no_preview {
-                        "no-preview"
-                    } else {
-                        "rendering"
-                    },
-
                     #[name = "scroller"]
                     add_named[Some("image")] = &gtk::ScrolledWindow {
                         set_hscrollbar_policy: gtk::PolicyType::Automatic,
@@ -180,6 +171,15 @@ impl Component for Lightbox {
                             set_label: &i18n("No preview available"),
                             add_css_class: "title-3",
                         },
+                    },
+
+                    #[watch]
+                    set_visible_child_name: if model.texture.is_some() {
+                        "image"
+                    } else if model.no_preview {
+                        "no-preview"
+                    } else {
+                        "rendering"
                     },
                 },
 
